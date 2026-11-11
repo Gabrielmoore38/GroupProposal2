@@ -10,10 +10,27 @@ import UIKit
 class ViewController: UIViewController{
     let names = ["Gabriel Moore", "Landon Moore"]
     let project = ["Front End", "Back End", "UI Design"]
-    let preview = ["placeholder"]
+    let preview = ["StudentTrack Preview"]
     
     @IBOutlet weak var tableView: UITableView!
+
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let indexPath = sender as? IndexPath else {
+            return
+        }
+
+        if segue.identifier == "ToMembers",
+           let destination = segue.destination as? MembersVC {
+            destination.memberName = names[indexPath.row]
+        }
+
+        if segue.identifier == "ToProject",
+           let destination = segue.destination as? ProjectVC {
+            destination.projectSection = project[indexPath.row]
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -92,7 +109,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return "Aspects of the project"
         case 2:
-            return "testing for preview"
+            return "Preview of the project"
         default:
             return nil
         }
